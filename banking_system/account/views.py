@@ -100,7 +100,7 @@ def dashboard(request):
         form = CreditCardForm()
 
     context = {
-        "user": request.user,  # Добавьте это для доступа к пользователю в шаблоне
+        "user": request.user, 
         "kyc": kyc,
         "account": account,
         "form": form,
