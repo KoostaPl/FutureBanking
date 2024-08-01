@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Users</title>
+</head>
+<body>
+    <header>
+        <h1>Search Users by Card Number</h1>
+        <nav>
+            <a href="{% url 'core:index' %}">Home</a> |
+            <a href="{% url 'account:dashboard' %}">Dashboard</a>
+        </nav>
+    </header>
+
+    <main>
+        <form method="post" action="{% url 'core:search-card' %}">
+            {% csrf_token %}
+            <label for="card_number">Enter Card Number:</label>
+            <input type="text" id="card_number" name="card_number" value="{{ query }}">
+            <button type="submit">Search</button>
+        </form>
+
+        {% if accounts %}
+            <h2>Search Results:</h2>
+            <ul>
+                {% for acc in accounts %}
+                    <li>
+                        <a href="{% url 'core:amount-transfer' acc.id %}">
+                            Card Number: {{ acc.number }} - User: {{ acc.user.username }}
+                        </a>
+                    </li>
+                {% empty %}
+                    <li>No accounts found for "{{ query }}"</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </main>
+
+    <footer>
+        <p><a href="{% url 'account:dashboard' %}">Back to Dashboard</a></p>
+    </footer>
+</body>
+</html>

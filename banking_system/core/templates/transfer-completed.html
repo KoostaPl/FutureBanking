@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transfer Completed</title>
+</head>
+<body>
+    <header>
+        <h1>Transfer Completed</h1>
+        <nav>
+            <a href="{% url 'core:index' %}">Home</a> |
+            <a href="{% url 'core:transaction-lists' %}">Transactions</a>
+        </nav>
+    </header>
+
+    <main>
+        <h2>Transfer Completed Successfully!</h2>
+        <p><strong>To Account:</strong> {{ account.account_number }}</p>
+        <p><strong>Amount:</strong> {{ transaction.amount }}</p>
+        <p><strong>Description:</strong> {{ transaction.description }}</p>
+        <p><strong>Status:</strong> {{ transaction.status }}</p>
+        
+        <a href="{% url 'core:transaction-lists' %}">View Transactions</a>
+    </main>
+
+    <footer>
+        <p><a href="{% url 'core:index' %}">Back to Home</a></p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,39 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Credit Cards</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'carddetailstyle.css' %}">
+
+</head>
+<body>
+    <header>
+        <h1>All Credit Cards</h1>
+        <nav>
+            <a href="{% url 'core:index' %}">Home</a> |
+            <a href="{% url 'account:dashboard' %}">Dashboard</a>
+        </nav>
+    </header>
+
+    <main>
+        <h2>Your Credit Cards</h2>
+        <ul>
+            {% for card in credit_cards %}
+                <li>
+                    <a href="{% url 'core:card-detail' card.card_id %}">
+                        Card ID: {{ card.card_id }} - Amount: {{ card.amount }}
+                    </a>
+                </li>
+            {% empty %}
+                <li>No credit cards found.</li>
+            {% endfor %}
+        </ul>
+    </main>
+
+    <footer>
+        <p><a href="{% url 'account:dashboard' %}">Back to Dashboard</a></p>
+    </footer>
+</body>
+</html>

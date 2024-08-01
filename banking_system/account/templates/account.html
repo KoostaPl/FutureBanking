@@ -1,0 +1,90 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Account Dashboard</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'accountstyle.css' %}">
+</head>
+<body>
+    <h1>Account Dashboard</h1>
+
+    {% if messages %}
+        <ul>
+            {% for message in messages %}
+                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    <h2>Account Details</h2>
+    <p>Full Name: {{ kyc.full_name }}</p>
+    <p>Email: {{ request.user.email }}</p>
+    <p>Profile Picture: <img src="{{ kyc.image.url }}" alt="Profile Picture" width="200" height="200"></p>
+
+    <h2>KYC Status</h2>
+    {% if kyc %}
+        <p>KYC is completed.</p>
+        <p><a href="{% url 'account:kyc-reg' %}">Update KYC Information</a></p>
+    {% else %}
+        <p>KYC is not completed. <a href="{% url 'account:kyc-reg' %}">Submit KYC Information</a></p>
+    {% endif %}
+
+    <h2>Credit Cards</h2>
+    <ul>
+        {% if credit_cards %}
+            {% for credit_card in credit_cards %}
+                <li>
+                    <a href="{% url 'core:card-detail' credit_card.card_id %}">
+                        Card ID: {{ credit_card.card_id }} - Amount: {{ credit_card.amount }}
+                    </a>
+                </li>
+            {% endfor %}
+        {% else %}
+            <li>No credit cards found.</li>
+        {% endif %}
+    </ul>
+
+    <!-- Add button/link for fund transfer -->
+    <h2>Transfer Funds</h2>
+    <p><a href="{% url 'core:search-card' %}">Transfer funds to another account</a></p>
+
+    <h2>Recent Sent Transactions</h2>
+    <ul>
+        {% if recent_sent_transactions %}
+            {% for transaction in recent_sent_transactions %}
+                <li>
+                    <a href="{% url 'core:transaction-detail' transaction.transaction_id %}">
+                        {{ transaction.date }} - Amount: {{ transaction.amount }} - Status: {{ transaction.status }}
+                    </a>
+                </li>
+            {% endfor %}
+        {% else %}
+            <li>No recent sent transactions found.</li>
+        {% endif %}
+    </ul>
+
+    <h2>Recent Received Transactions</h2>
+    <ul>
+        {% if recent_received_transactions %}
+            {% for transaction in recent_received_transactions %}
+                <li>
+                    <a href="{% url 'core:transaction-detail' transaction.transaction_id %}">
+                        {{ transaction.date }} - Amount: {{ transaction.amount }} - Status: {{ transaction.status }}
+                    </a>
+                </li>
+            {% endfor %}
+        {% else %}
+            <li>No recent received transactions found.</li>
+        {% endif %}
+    </ul>
+
+    <a href="{% url 'account:dashboard' %}">Go to Dashboard</a>
+
+    <form method="POST" action="{% url 'authuser:sign-out' %}">
+        {% csrf_token %}
+        <button type="submit">Logout</button>
+    </form>
+</body>
+</html>
+

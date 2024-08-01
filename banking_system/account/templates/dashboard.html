@@ -1,0 +1,118 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'dashboardstyle.css' %}">
+
+</head>
+<body>
+    <h1>Dashboard</h1>
+
+    {% if messages %}
+        <ul>
+            {% for message in messages %}
+                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    <h2>Account Details</h2>
+    <p>Full Name: {{ kyc.full_name }}</p>
+    <p>Email: {{ user.email }}</p>
+    <p>Profile Picture: <img src="{{ kyc.image.url }}" alt="Profile Picture" width="200" height="200"></p>
+    <h2>KYC Status</h2>
+    {% if kyc %}
+        <p>KYC is completed.</p>
+    {% else %}
+        <p>KYC is not completed. <a href="{% url 'account:kyc-reg' %}">Submit KYC Information</a></p>
+    {% endif %}
+
+    <h2>Recent Transactions</h2>
+    <h3>Recent Transfer</h3>
+    {% if recent_transfer %}
+        <p>Amount: {{ recent_transfer.0.amount }} USD</p>
+        <p>Date: {{ recent_transfer.0.date }}</p>
+    {% else %}
+        <p>No recent transfers found.</p>
+    {% endif %}
+
+    <h3>Recent Received Transfer</h3>
+    {% if recent_recieved_transfer %}
+        <p>Amount: {{ recent_recieved_transfer.0.amount }} USD</p>
+        <p>Date: {{ recent_recieved_transfer.0.date }}</p>
+    {% else %}
+        <p>No recent received transfers found.</p>
+    {% endif %}
+
+    <h2>Credit Cards</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Add Credit Card</button>
+    </form>
+
+    <h3>Existing Credit Cards</h3>
+    {% if credit_card %}
+        <ul>
+            {% for card in credit_card %}
+                <li>
+                    <a href="{% url 'core:card-detail' card.card_id %}">
+                        Card ID: {{ card.card_id }} - Expiry: {{ card.expiry_date }}
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No credit cards found.</p>
+    {% endif %}
+
+    <h2>Transaction History</h2>
+    <h3>Sender Transactions</h3>
+    {% if sender_transaction %}
+        <ul>
+            {% for transaction in sender_transaction %}
+                <li>Amount: {{ transaction.amount }} USD - Date: {{ transaction.date }}</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No sender transactions found.</p>
+    {% endif %}
+
+    <h3>Receiver Transactions</h3>
+    {% if reciever_transaction %}
+        <ul>
+            {% for transaction in reciever_transaction %}
+                <li>Amount: {{ transaction.amount }} USD - Date: {{ transaction.date }}</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No receiver transactions found.</p>
+    {% endif %}
+
+    <h3>Request Sender Transactions</h3>
+    {% if request_sender_transaction %}
+        <ul>
+            {% for transaction in request_sender_transaction %}
+                <li>Amount: {{ transaction.amount }} USD - Date: {{ transaction.date }}</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No request sender transactions found.</p>
+    {% endif %}
+
+    <h3>Request Receiver Transactions</h3>
+    {% if request_reciever_transaction %}
+        <ul>
+            {% for transaction in request_reciever_transaction %}
+                <li>Amount: {{ transaction.amount }} USD - Date: {{ transaction.date }}</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No request receiver transactions found.</p>
+    {% endif %}
+
+    <a href="{% url 'account:account' %}">Back to Account</a>
+</body>
+</html>

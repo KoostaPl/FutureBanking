@@ -1,0 +1,39 @@
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transaction Detail</title>
+</head>
+<body>
+    <header>
+        <h1>Transaction Detail</h1>
+        <nav>
+            <a href="{% url 'core:index' %}">Home</a> |
+            <a href="{% url 'core:transaction-lists' %}">Transactions</a>
+        </nav>
+    </header>
+
+    <main>
+        <h2>Transaction Details</h2>
+        <p><strong>Transaction ID:</strong> {{ transaction.transaction_id }}</p>
+        <p><strong>Amount:</strong> {{ transaction.amount }}</p>
+        <p><strong>Description:</strong> {{ transaction.description }}</p>
+        <p><strong>Sender:</strong> {{ transaction.sender }}</p>
+        <p><strong>Receiver:</strong> {{ transaction.reciever }}</p>
+        <p><strong>Status:</strong> {{ transaction.status }}</p>
+        <p><strong>Type:</strong> {{ transaction.transaction_type }}</p>
+        <p><strong>Date:</strong> {{ transaction.date }}</p>
+        
+        <a href="{% url 'core:transaction-lists' %}">Back to Transactions</a>
+    </main>
+
+    <footer>
+        <p><a href="{% url 'core:index' %}">Back to Home</a></p>
+    </footer>
+</body>
+</html>
+

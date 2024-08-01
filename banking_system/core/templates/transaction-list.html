@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transaction List</title>
+</head>
+<body>
+    <header>
+        <h1>Transaction List</h1>
+        <nav>
+            <a href="{% url 'core:index' %}">Home</a> |
+            <a href="{% url 'account:dashboard' %}">Dashboard</a>
+        </nav>
+    </header>
+
+    <main>
+        <h2>Sender Transactions</h2>
+        <ul>
+            {% for transaction in sender_transaction %}
+                <li>
+                    <a href="{% url 'core:transaction-detail' transaction.transaction_id %}">
+                        {{ transaction.date }} - Amount: {{ transaction.amount }} - Status: {{ transaction.status }}
+                    </a>
+                </li>
+            {% empty %}
+                <li>No sender transactions found.</li>
+            {% endfor %}
+        </ul>
+
+        <h2>Receiver Transactions</h2>
+        <ul>
+            {% for transaction in reciever_transaction %}
+                <li>
+                    <a href="{% url 'core:transaction-detail' transaction.transaction_id %}">
+                        {{ transaction.date }} - Amount: {{ transaction.amount }} - Status: {{ transaction.status }}
+                    </a>
+                </li>
+            {% empty %}
+                <li>No receiver transactions found.</li>
+            {% endfor %}
+        </ul>
+
+        <h2>Request Sender Transactions</h2>
+        <ul>
+            {% for transaction in request_sender_transaction %}
+                <li>
+                    <a href="{% url 'core:transaction-detail' transaction.transaction_id %}">
+                        {{ transaction.date }} - Amount: {{ transaction.amount }} - Status: {{ transaction.status }}
+                    </a>
+                </li>
+            {% empty %}
+                <li>No request sender transactions found.</li>
+            {% endfor %}
+        </ul>
+
+        <h2>Request Receiver Transactions</h2>
+        <ul>
+            {% for transaction in request_reciever_transaction %}
+                <li>
+                    <a href="{% url 'core:transaction-detail' transaction.transaction_id %}">
+                        {{ transaction.date }} - Amount: {{ transaction.amount }} - Status: {{ transaction.status }}
+                    </a>
+                </li>
+            {% empty %}
+                <li>No request receiver transactions found.</li>
+            {% endfor %}
+        </ul>
+    </main>
+
+    <footer>
+        <p><a href="{% url 'account:dashboard' %}">Back to Dashboard</a></p>
+    </footer>
+</body>
+</html>

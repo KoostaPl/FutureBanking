@@ -1,0 +1,39 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amount Transfer to Card</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'transferstyle.css' %}">
+
+</head>
+<body>
+    <header>
+        <h1>Amount Transfer to Card</h1>
+        <nav>
+            <a href="{% url 'core:index' %}">Home</a> |
+            <a href="{% url 'core:search-card' %}">Search Cards</a>
+        </nav>
+    </header>
+
+    <main>
+        <h2>Transfer to Card: {{ card.number }}</h2>
+        <form method="post" action="{% url 'core:amount-transfer' card.id %}">
+            {% csrf_token %}
+            <label for="amount-send">Amount:</label>
+            <input type="number" id="amount-send" name="amount-send" step="0.01" min="0" required>
+            <br>
+            <label for="description">Description:</label>
+            <textarea id="description" name="description" rows="4" cols="50" required></textarea>
+            <br>
+            <button type="submit">Transfer</button>
+        </form>
+    </main>
+
+    <footer>
+        <a href="{% url 'core:search-card' %}">Back to Search</a>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transfer Confirmation</title>
+</head>
+<body>
+    <header>
+        <h1>Transfer Confirmation</h1>
+        <nav>
+            <a href="{% url 'core:index' %}">Home</a> |
+            <a href="{% url 'core:search-card' %}">Search Cards</a>
+        </nav>
+    </header>
+
+    <main>
+        
+        <h2>Confirm Transfer to Card Number: {{ card.number }}</h2>
+        <p>Amount: {{ transaction.amount }}</p>
+        <p>Description: {{ transaction.description }}</p>
+        
+        <form method="post" action="{% url 'core:transfer-process' card.card_id transaction.transaction_id %}">
+            {% csrf_token %}
+            <label for="pin-number">Enter PIN:</label>
+            <input type="password" id="pin-number" name="pin-number" required>
+            <br>
+            <button type="submit">Confirm</button>
+        </form>
+    </main>
+
+    <footer>
+        <p><a href="{% url 'core:transaction-lists' %}">Back to Transactions</a></p>
+    </footer>
+</body>
+</html>
